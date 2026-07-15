@@ -149,6 +149,17 @@ GET  https://postman-lite-jlr1.onrender.com/users
 GET  https://postman-lite-jlr1.onrender.com/api/status
 ```
 
+### Filtering Movies with Query Parameters:
+You can filter the `GET /movies` endpoint using query strings:
+
+```
+GET  https://postman-lite-jlr1.onrender.com/movies?year=2014
+GET  https://postman-lite-jlr1.onrender.com/movies?genre=action
+GET  https://postman-lite-jlr1.onrender.com/movies?rating=8.5
+GET  https://postman-lite-jlr1.onrender.com/movies?director=nolan
+GET  https://postman-lite-jlr1.onrender.com/movies?title=dark
+```
+
 ### POST /movies — Request Body (JSON):
 
 ```json
