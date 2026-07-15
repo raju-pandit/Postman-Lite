@@ -38,12 +38,31 @@ movies[4] = { id: 5, title: "Dangal", year: 2016, genre: "Drama", rating: 8.3, d
 
 let nextId = 51;
 
-// 1. GET /movies — Get all movies
+// 1. GET /movies — Get all movies (with optional query filters like ?year=2014 or ?genre=Action)
 app.get("/movies", (req, res) => {
+  let result = movies;
+
+  // Filter based on query parameters
+  if (req.query.year) {
+    result = result.filter(m => m.year === parseInt(req.query.year));
+  }
+  if (req.query.genre) {
+    result = result.filter(m => m.genre.toLowerCase() === req.query.genre.toLowerCase());
+  }
+  if (req.query.director) {
+    result = result.filter(m => m.director.toLowerCase().includes(req.query.director.toLowerCase()));
+  }
+  if (req.query.rating) {
+    result = result.filter(m => m.rating >= parseFloat(req.query.rating));
+  }
+  if (req.query.title) {
+    result = result.filter(m => m.title.toLowerCase().includes(req.query.title.toLowerCase()));
+  }
+
   res.json({
     status: "success",
-    count: movies.length,
-    data: movies
+    count: result.length,
+    data: result
   });
 });
 
