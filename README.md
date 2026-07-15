@@ -144,9 +144,9 @@ The server includes ready-to-use demo endpoints for testing:
 ### Example — Test with Postman Lite:
 
 ```
-GET  https://postman-lite.onrender.com/movies
-GET  https://postman-lite.onrender.com/users
-GET  https://postman-lite.onrender.com/api/status
+GET  https://postman-lite-jlr1.onrender.com/movies
+GET  https://postman-lite-jlr1.onrender.com/users
+GET  https://postman-lite-jlr1.onrender.com/api/status
 ```
 
 ### POST /movies — Request Body (JSON):
@@ -202,7 +202,7 @@ User fills URL + Method + Headers/Body/Auth
 
 ### Send a Request
 
-1. Enter URL: `https://postman-lite.onrender.com/movies`
+1. Enter URL: `https://postman-lite-jlr1.onrender.com/movies`
 2. Select method: `GET`
 3. Click **Send**
 4. View the JSON response with syntax highlighting ✅
@@ -210,7 +210,7 @@ User fills URL + Method + Headers/Body/Auth
 ### Environment Variables
 
 1. Click **🌐 Environments**
-2. Add: `BASE_URL = https://postman-lite.onrender.com`
+2. Add: `BASE_URL = https://postman-lite-jlr1.onrender.com`
 3. Use in URL: `{{BASE_URL}}/movies`
 
 ### Save to Collection
