@@ -125,24 +125,80 @@ const RequestBuilder = (() => {
     // Reset UI
     ResponseViewer.reset();
 
-    try {
-      // Use dynamic origin so it works on localhost AND when deployed
-      const proxyUrl = `${window.location.origin}/proxy`;
-      const res = await fetch(proxyUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+    // ── Smart Routing ──
+    // localhost/127.0.0.1 → Direct from browser (user's own machine)
+    // External URLs       → Through Render proxy (bypass CORS)
+    const isLocalUrl = /^https?:\/\/(localhost|127\.0\.0\.1)/i.test(payload.url);
 
-      const data = await res.json();
-      
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to proxy request');
+    try {
+      let responseData;
+
+      if (isLocalUrl) {
+        // ── DIRECT CALL from browser (user's own localhost) ──
+        const startTime = Date.now();
+
+        // Build query string for params
+        let fetchUrl = payload.url;
+        if (payload.params && Object.keys(payload.params).length > 0) {
+          const qs = new URLSearchParams(payload.params).toString();
+          fetchUrl += (fetchUrl.includes('?') ? '&' : '?') + qs;
+        }
+
+        const fetchOptions = {
+          method: payload.method,
+          headers: payload.headers || {},
+        };
+
+        // Add body for non-GET requests
+        if (payload.body && !['GET','HEAD'].includes(payload.method)) {
+          fetchOptions.body = typeof payload.body === 'object'
+            ? JSON.stringify(payload.body)
+            : payload.body;
+        }
+
+        const directRes = await fetch(fetchUrl, fetchOptions);
+        const elapsed = Date.now() - startTime;
+
+        let data;
+        const contentType = directRes.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          data = await directRes.json();
+        } else {
+          data = await directRes.text();
+        }
+
+        // Build headers object from Headers API
+        const headersObj = {};
+        directRes.headers.forEach((val, key) => { headersObj[key] = val; });
+
+        responseData = {
+          status:     directRes.status,
+          statusText: directRes.statusText,
+          headers:    headersObj,
+          data:       data,
+          time:       elapsed,
+          size:       JSON.stringify(data).length,
+        };
+
+        showToast('Direct call (your localhost)', 'info');
+
+      } else {
+        // ── PROXY CALL through Render backend (external APIs) ──
+        const proxyUrl = `${window.location.origin}/proxy`;
+        const res = await fetch(proxyUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        responseData = await res.json();
+
+        if (!res.ok) {
+          throw new Error(responseData.error || 'Failed to proxy request');
+        }
       }
-      
-      ResponseViewer.render(data);
-      
-      // Bonus: Add to history (handled by app.js event)
+
+      ResponseViewer.render(responseData);
       document.dispatchEvent(new CustomEvent('request-sent', { detail: payload }));
 
     } catch (err) {
