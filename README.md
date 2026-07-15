@@ -1,16 +1,26 @@
 # ⚡ Postman Lite — API Testing Platform
 
-> A lightweight, browser-based API testing tool built for the Hackathon. Test APIs, manage collections, set environment variables, and inspect responses — all without installing anything.
+> A lightweight, browser-based API testing tool built for the Hackathon. Test APIs, manage collections, set environment variables, and inspect responses — all without installing anything extra.
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-brightgreen)](https://postman-lite.onrender.com)
+[![GitHub](https://img.shields.io/badge/GitHub-raju--pandit-blue)](https://github.com/raju-pandit/Postman-Lite)
+[![Node.js](https://img.shields.io/badge/Node.js-Express-green)](https://nodejs.org)
 
 ---
 
 ## 📌 Project Overview
 
-**Postman Lite** is a full-stack API testing web application inspired by Postman. It allows developers to send HTTP requests (GET, POST, PUT, PATCH, DELETE) to any API endpoint, inspect responses with syntax highlighting, save requests in organized collections, and manage environment variables — all through a clean, premium dark-themed UI.
+**Postman Lite** is a full-stack API testing web application inspired by Postman. It allows developers to:
+- Send HTTP requests (GET, POST, PUT, PATCH, DELETE) to any API
+- Inspect responses with **syntax-highlighted JSON**
+- Save requests in organized **Collections**
+- Manage **Environment Variables** using `{{VAR}}` syntax
+- Track **Request History** automatically
+- Toggle between **Dark & Light Mode**
 
 The backend acts as a **CORS proxy server**, allowing the frontend to call any external API without browser CORS restrictions.
 
-All data (collections, history, environment variables) is stored in **browser localStorage** — no database required.
+All data is stored in **browser localStorage** — no database required.
 
 ---
 
@@ -18,43 +28,47 @@ All data (collections, history, environment variables) is stored in **browser lo
 
 | Feature | Description |
 |---|---|
-| 🚀 **Send HTTP Requests** | Supports GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS |
-| 📋 **Request Builder** | Set Params, Headers, Body (JSON / form-data / urlencoded / raw), and Auth |
-| 🔐 **Authentication** | Bearer Token, Basic Auth, API Key support |
-| 🌍 **Environment Variables** | Define `{{VARIABLE}}` placeholders, resolve them at runtime |
-| 📁 **Collections** | Save, organize, and reload requests in named collections |
-| 🕓 **Request History** | Automatically tracks the last 20 sent requests |
-| 🎨 **JSON Syntax Highlighting** | Response body displayed with color-coded JSON |
-| 🌙 **Dark / Light Mode** | Toggle between themes, persisted in localStorage |
-| 📡 **CORS Proxy** | Backend proxy bypasses CORS restrictions transparently |
-| 📊 **Response Meta** | Shows Status Code, Response Time (ms), and Size (KB) |
+| 🚀 **HTTP Methods** | GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS |
+| 📋 **Request Builder** | Params, Headers, Body (JSON / form-data / urlencoded / raw), Auth |
+| 🔐 **Authentication** | Bearer Token, Basic Auth, API Key |
+| 🌍 **Environment Variables** | `{{BASE_URL}}` style variable resolution |
+| 📁 **Collections** | Save, organize, and reload requests |
+| 🕓 **Request History** | Auto-tracks last 20 sent requests |
+| 🎨 **JSON Highlighting** | Color-coded response body |
+| 🌙 **Dark / Light Mode** | Theme toggle, saved in localStorage |
+| 📡 **CORS Proxy** | Backend proxy bypasses CORS restrictions |
+| 📊 **Response Meta** | Status Code, Response Time (ms), Size (KB) |
+| 📄 **Copy Response** | One-click copy to clipboard |
 
 ---
 
 ## 🗂️ Folder Structure
 
 ```
-on_hackthone_project/
+Postman-Lite/
 │
 ├── backend/                    # Node.js + Express backend
 │   ├── routes/
-│   │   └── proxy.js            # CORS proxy route using Axios
-│   ├── server.js               # Express app entry point
-│   └── package.json            # Backend dependencies
+│   │   └── proxy.js            # CORS proxy route (Axios)
+│   ├── server.js               # Express server + Demo APIs
+│   └── package.json
 │
-├── frontend/                   # Vanilla JS + HTML + CSS frontend
+├── frontend/                   # Vanilla JS + HTML + CSS
 │   ├── css/
-│   │   └── style.css           # Full premium dark theme styles
+│   │   └── style.css           # Premium dark theme
 │   ├── js/
-│   │   ├── app.js              # Main wiring, event listeners, history
-│   │   ├── auth.js             # Auth header management (Bearer/Basic/API Key)
-│   │   ├── collections.js      # Collection CRUD via localStorage
-│   │   ├── environment.js      # Environment variable resolution ({{VAR}})
-│   │   ├── request.js          # Request builder + fetch to proxy
-│   │   └── response.js         # Response renderer + JSON syntax highlighter
-│   └── index.html              # Main application shell
+│   │   ├── app.js              # Main wiring & event listeners
+│   │   ├── auth.js             # Auth header management
+│   │   ├── collections.js      # Collections CRUD (localStorage)
+│   │   ├── environment.js      # {{VAR}} resolver
+│   │   ├── request.js          # Request builder + smart routing
+│   │   └── response.js         # Response renderer + JSON highlighter
+│   └── index.html              # Main app shell
 │
-└── README.md                   # Project documentation
+├── screenshots/                # UI screenshots
+├── package.json                # Root package (for deployment)
+├── .gitignore
+└── README.md
 ```
 
 ---
@@ -66,55 +80,79 @@ on_hackthone_project/
 |---|---|
 | **Node.js** | Runtime environment |
 | **Express.js** | Web server and routing |
-| **Axios** | Proxying HTTP requests to external APIs |
-| **CORS** | Allowing frontend cross-origin requests |
+| **Axios** | Proxying HTTP requests |
+| **CORS** | Cross-origin support |
 
 ### Frontend
 | Technology | Purpose |
 |---|---|
-| **HTML5** | Application structure |
-| **Vanilla CSS** | Full custom dark theme with glassmorphism |
+| **HTML5** | App structure |
+| **Vanilla CSS** | Custom dark/light theme |
 | **Vanilla JavaScript** | All UI logic, no frameworks |
-| **localStorage** | Persistent storage for collections, history, env vars |
-| **Google Fonts** | Inter + JetBrains Mono for typography |
+| **localStorage** | Collections, History, Env Variables |
+| **Google Fonts** | Inter + JetBrains Mono |
 
 ---
 
 ## 🚀 Installation & Setup
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) v16 or higher
-- npm (comes with Node.js)
+- [Node.js](https://nodejs.org/) v16+
 
-### Step 1 — Clone the project
+### Step 1 — Clone
 ```bash
-git clone <your-repo-url>
-cd on_hackthone_project
+git clone https://github.com/raju-pandit/Postman-Lite.git
+cd Postman-Lite
 ```
 
-### Step 2 — Install backend dependencies
+### Step 2 — Install dependencies
 ```bash
-cd backend
 npm install
 ```
 
-### Step 3 — Start the server
+### Step 3 — Start server
 ```bash
-node server.js
+npm start
 ```
 
-You should see:
-```
-Server running at http://localhost:5000
-```
-
-### Step 4 — Open in browser
-Navigate to:
+### Step 4 — Open browser
 ```
 http://localhost:5000
 ```
 
-> ✅ The frontend is served automatically by Express from the `frontend/` folder. **No separate frontend server needed.**
+> ✅ Frontend is served automatically by Express — no separate server needed!
+
+---
+
+## 📡 Built-in Demo APIs
+
+The server includes ready-to-use demo endpoints for testing:
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/movies` | Get all movies list |
+| `GET` | `/movies/:id` | Get single movie by ID |
+| `POST` | `/movies` | Add a new movie |
+| `GET` | `/users` | Get all users |
+| `GET` | `/api/status` | Server health check |
+
+### Example — Test with Postman Lite:
+```
+GET  https://postman-lite.onrender.com/movies
+GET  https://postman-lite.onrender.com/users
+GET  https://postman-lite.onrender.com/api/status
+```
+
+### POST /movies — Request Body (JSON):
+```json
+{
+  "title": "Pushpa 2",
+  "year": 2024,
+  "genre": "Action",
+  "rating": 8.5,
+  "director": "Sukumar"
+}
+```
 
 ---
 
@@ -124,93 +162,79 @@ http://localhost:5000
 User fills URL + Method + Headers/Body/Auth
            │
            ▼
-   Frontend (browser)
-   js/request.js → resolves {{ENV_VARS}} → builds payload
-           │
-           ▼ POST http://localhost:5000/proxy
-   Backend Proxy (Express)
-   routes/proxy.js → Axios forwards request to External API
-           │
-           ▼
-   External API responds
-           │
-           ▼
-   Backend returns { status, headers, data, time, size }
+   Frontend — request.js
+   Smart Routing:
+   ┌────────────────────────────────┐
+   │  localhost URL?                │
+   │  → Direct fetch (user's PC)   │
+   │  External URL?                 │
+   │  → Render Proxy (CORS bypass) │
+   └────────────────────────────────┘
            │
            ▼
-   Frontend (js/response.js)
-   → Renders JSON with syntax highlighting
-   → Updates Status / Time / Size chips
-   → Saves to History (localStorage)
+   Response rendered with:
+   ✅ JSON Syntax Highlighting
+   ✅ Status / Time / Size chips
+   ✅ Auto-saved to History
 ```
 
 ---
 
-## 💾 localStorage Data Structure
-
-All app state is persisted using **browser localStorage** under these keys:
+## 💾 localStorage Keys
 
 | Key | Contents |
 |---|---|
-| `pl_collections` | Array of collection objects with saved requests |
-| `pl_history` | Array of last 20 sent requests |
-| `pl_env` | Object of environment variable key-value pairs |
-| `pl_theme` | `"dark"` or `"light"` for theme preference |
+| `pl_collections` | Saved request collections |
+| `pl_history` | Last 20 sent requests |
+| `pl_env_vars` | Environment variable pairs |
+| `pl_theme` | `"dark"` or `"light"` |
 
 ---
 
 ## 🎯 How to Use
 
-### Sending a Request
-1. Type or paste a URL in the URL bar (e.g., `https://jsonplaceholder.typicode.com/posts`)
-2. Select an HTTP method from the dropdown (GET, POST, etc.)
-3. Add optional **Params**, **Headers**, **Body**, or **Auth** from the tabs
-4. Click the **Send** button (or press `Enter`)
-5. View the response in the right panel
+### Send a Request
+1. Enter URL: `https://postman-lite.onrender.com/movies`
+2. Select method: `GET`
+3. Click **Send**
+4. View the JSON response with syntax highlighting ✅
 
-### Using Environment Variables
-1. Click the **🌐 Environments** button in the navbar
-2. Add variables like `BASE_URL = https://api.example.com`
-3. Use them in your URL or headers: `{{BASE_URL}}/users`
+### Environment Variables
+1. Click **🌐 Environments**
+2. Add: `BASE_URL = https://postman-lite.onrender.com`
+3. Use in URL: `{{BASE_URL}}/movies`
 
-### Saving to a Collection
-1. Click the **💾 Save** button
-2. Choose an existing collection or create a new one
-3. The request appears in the left sidebar for quick reload
+### Save to Collection
+1. Click **💾 Save**
+2. Enter name → Select collection → **Save Request**
 
 ### Dark / Light Mode
-- Click the ☀️/🌙 button in the navbar to toggle themes
+- Click ☀️/🌙 button in navbar
 
 ---
 
 ## 📸 Screenshots
 
-### 🌑 Dark Mode — Default View
+### 🌑 Dark Mode
 ![Dark Mode](./screenshots/dark-mode.png)
 
----
-
-### ☀️ Light Mode — Theme Toggle
+### ☀️ Light Mode
 ![Light Mode](./screenshots/light-mode.png)
 
----
+### 📡 Response Viewer
+![Response](./screenshots/response-view.png)
 
-### 📡 Response Viewer — Live API Response
-![Response View](./screenshots/response-view.png)
-
----
-
-### 🏗️ Application Architecture / Workflow
-![Architecture Diagram](./screenshots/architecture.png)
+### 🏗️ Architecture
+![Architecture](./screenshots/architecture.png)
 
 ---
 
 ## 👨‍💻 Author
 
-Built for the **Hackathon** — Postman Lite demonstrates a functional, real-world API client with a premium UI, zero external frontend dependencies, and a clean backend proxy architecture.
+**Raju Pandit** — Built for Hackathon 2026
 
 ---
 
 ## 📄 License
 
-This project is open source for educational and hackathon purposes.
+Open source for educational and hackathon purposes.
